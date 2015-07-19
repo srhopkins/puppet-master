@@ -1,0 +1,12 @@
+puppetmaster:
+  build: build/puppetmaster
+  hostname: puppetmaster
+  #command: tailf /var/log/yum.log
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
+
+puppet7:
+  build: build/puppet7
+  links:
+    - puppetmaster
