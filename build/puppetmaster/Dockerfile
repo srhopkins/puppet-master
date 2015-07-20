@@ -18,14 +18,15 @@ RUN echo -e 'execute pathogen#infect()\nsyntax on\nfiletype plugin indent on\nse
 RUN cd ~/.vim/bundle; git clone https://github.com/rodjek/vim-puppet.git ;\
   git clone git://github.com/godlygeek/tabular.git
 
-# When using docker::run make sure to add { restarts => 'no' } to prevent using
-# upstart/systemd managment, which will break in docker container.
-RUN puppet module install puppetlabs-docker_platform
+RUN puppet module install puppetlabs-puppetdb
 
 RUN echo "alias ls='ls --color'" >> ~/.bashrc
 
 WORKDIR /etc/puppet/modules
 
 ADD puppet.conf /etc/puppet/puppet.conf
+ADD site.pp /etc/puppet/manifests/site.pp
+
+RUN puppet apply /etc/puppet/manifests/site.pp
 
 CMD puppet master --verbose --debug --no-daemonize
