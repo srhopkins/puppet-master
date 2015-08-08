@@ -14,15 +14,14 @@ RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 ADD colors /root/.vim/colors
-
-RUN echo -e 'execute pathogen#infect()\nsyntax on\nfiletype plugin indent on\nset number\ncolor monokai' > ~/.vimrc
+ADD vimrc /root/.vimrc
 
 RUN cd ~/.vim/bundle; git clone https://github.com/rodjek/vim-puppet.git ;\
   git clone git://github.com/godlygeek/tabular.git
 
 RUN puppet module install puppetlabs-puppetdb
 
-RUN echo "alias ls='ls --color'" >> ~/.bashrc
+RUN echo -e "alias ls='ls --color'\nexport TERM=screen-256color" >> ~/.bashrc
 
 WORKDIR /etc/puppet/modules
 

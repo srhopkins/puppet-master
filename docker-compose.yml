@@ -1,9 +1,11 @@
 puppetmaster:
   build: build/puppetmaster
   hostname: puppetmaster
+  privileged: true
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /usr/bin/docker:/usr/bin/docker
+    - modules:/etc/puppet/modules
 
 #centos5:
 #  build: build/centos5
@@ -14,8 +16,13 @@ centos6:
   build: build/centos6
   links:
     - puppetmaster
+  volumes:
+    - modules:/etc/puppet/modules
 
 centos7:
   build: build/centos7
+  privileged: true
   links:
     - puppetmaster
+  volumes:
+    - modules:/etc/puppet/modules
